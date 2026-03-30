@@ -12,7 +12,7 @@ var users = []User{
 }
 
 func GetPublicMessage() string {
-	return "User service jalan 🚀"
+	return "User service jalan"
 }
 
 func GetProfile(claims map[string]interface{}) map[string]interface{} {
