@@ -1,15 +1,14 @@
 package middleware
 
 import (
+	"os"
 	"net/http"
 	"strings"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 )
 
-var SECRET = "rhn_jwt_key2112"
 
-// Middleware JWT
 func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		authHeader := c.GetHeader("Authorization")
@@ -37,7 +36,7 @@ func AuthMiddleware() gin.HandlerFunc {
 			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 				return nil, jwt.ErrSignatureInvalid
 			}
-			return []byte(SECRET), nil
+			return []byte(os.Getenv("JWT_SECRET")), nil
 		})
 
 		if err != nil {
