@@ -2,7 +2,8 @@ package handler
 
 import (
 	"net/http"
-	"user-service/service"
+
+	"user-service/src/service"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
@@ -15,8 +16,15 @@ func PublicHandler(c *gin.Context) {
 		"message": message,
 	})
 }
+
 func ProfileHandler(c *gin.Context) {
-	userClaims, _ := c.Get("user")
+	userClaims, exists := c.Get("user")
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"message": "Unauthorized",
+		})
+		return
+	}
 
 	claims, ok := userClaims.(jwt.MapClaims)
 	if !ok {
@@ -26,13 +34,28 @@ func ProfileHandler(c *gin.Context) {
 		return
 	}
 
-	result := service.GetProfile(claims)
+	user, err := service.GetProfile(claims)
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
 
-	c.JSON(http.StatusOK, result)
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Success",
+		"data":    user,
+	})
 }
 
 func GetAllUser(c *gin.Context) {
-	userClaims, _ := c.Get("user")
+	userClaims, exists := c.Get("user")
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"message": "Unauthorized",
+		})
+		return
+	}
 
 	_, ok := userClaims.(jwt.MapClaims)
 	if !ok {
@@ -45,13 +68,13 @@ func GetAllUser(c *gin.Context) {
 	users, err := service.GetAllUsers()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"message": "Gagal mengambil data user",
+			"message": "Failed to fetch users",
 		})
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"message": "Berhasil ambil semua user",
+		"message": "Success",
 		"data":    users,
 	})
 }

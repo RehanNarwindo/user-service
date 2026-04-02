@@ -1,17 +1,17 @@
-package config
-
+package database
 import (
 	"database/sql"
 	"fmt"
 	"log"
 	"os"
+
 	_ "github.com/lib/pq"
 	"github.com/joho/godotenv"
 )
 
 var DB *sql.DB
 
-func ConnectDB() {
+func DatabaseConfig() {
 	err := godotenv.Load()
 	if err != nil {
 		log.Println("No .env file found")
