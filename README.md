@@ -1,6 +1,7 @@
 <div align="center">
   
-# 🐹 Go Project Template
+# Go Project Template
+# ( User Service )
 
 ![Go Version](https://img.shields.io/badge/Go-1.21+-00ADD8?style=for-the-badge&logo=go)
 ![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)
@@ -9,15 +10,3 @@
 
 <!-- Banner/Logo -->
 <img src="https://golang.org/doc/gopher/fiveyears.jpg" width="300" alt="Gopher Mascot">
-
-## 🚀 Fitur Unggulan
-
-```go
-// Contoh kode yang langsung bisa dijalankan
-package main
-
-import "fmt"
-
-func main() {
-    fmt.Println("✨ Hello, Gopher! ✨")
-}
